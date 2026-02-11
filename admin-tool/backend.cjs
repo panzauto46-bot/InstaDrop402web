@@ -15,6 +15,23 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Endpoint: Nyalakan Server
+app.post('/start-server', (req, res) => {
+    // start cmd /k means: Open new CMD window and Keep it open
+    exec('start cmd /k "npm run start"', { cwd: path.join(__dirname, '..') }, (err) => {
+        if (err) return res.json({ success: false, message: 'Gagal membuka terminal server.' });
+        res.json({ success: true, message: 'Terminal Server dibuka!' });
+    });
+});
+
+// Endpoint: Nyalakan Tunnel
+app.post('/start-tunnel', (req, res) => {
+    exec('start cmd /k "ssh -R 80:localhost:3402 serveo.net"', { cwd: path.join(__dirname, '..') }, (err) => {
+        if (err) return res.json({ success: false, message: 'Gagal membuka terminal tunnel.' });
+        res.json({ success: true, message: 'Terminal Tunnel dibuka! Copy URL yang muncul.' });
+    });
+});
+
 // API endpoint to handle the update
 app.post('/update-url', (req, res) => {
     const newUrl = req.body.url;

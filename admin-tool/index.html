@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Darurat - InstaDrop 402</title>
+    <title>Admin Generator - InstaDrop 402</title>
     <style>
         body {
             background-color: #1a1a1a;
@@ -12,15 +13,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
+            /* Changed to min-height for safety */
             margin: 0;
+            padding: 20px;
+            /* Added padding for smaller screens */
         }
 
         .container {
             background-color: #2c2c2c;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             text-align: center;
             max-width: 500px;
             width: 100%;
@@ -29,12 +33,60 @@
         h1 {
             color: #ff9f43;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         p {
             color: #aaa;
             margin-bottom: 25px;
             font-size: 0.9em;
+        }
+
+        .step-box {
+            background: #333;
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .step-title {
+            color: #ff9f43;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-machine {
+            background-color: #44bd32;
+            color: #fff;
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .btn-machine:hover {
+            background-color: #2ed573;
+        }
+
+        .btn-tunnel {
+            background-color: #00a8ff;
+        }
+
+        .btn-tunnel:hover {
+            background-color: #0097e6;
         }
 
         .input-group {
@@ -61,8 +113,6 @@
         }
 
         button {
-            background-color: #ff9f43;
-            color: #fff;
             border: none;
             padding: 15px 30px;
             font-size: 16px;
@@ -73,19 +123,26 @@
             transition: background 0.3s;
         }
 
-        button:hover {
+        .btn-action {
+            background-color: #ff9f43;
+            color: #fff;
+        }
+
+        .btn-action:hover {
             background-color: #e58e26;
         }
 
         button:disabled {
-            background-color: #777;
+            background-color: #777 !important;
             cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .status {
             margin-top: 15px;
             color: #ffcccc;
             font-size: 14px;
+            min-height: 20px;
         }
 
         .success {
@@ -93,38 +150,72 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h1>🔧 Sistem Darurat</h1>
-        <p>Update URL Serveo otomatis tanpa coding.</p>
+        <h1>🔧 Admin Generator</h1>
+        <p>Kontrol Penuh InstaDrop 402</p>
 
-        <div class="input-group">
-            <label>URL Baru (Serveo)</label>
-            <input type="text" id="serveoUrl" placeholder="https://abcde.serveo.net/api" value="">
+        <!-- STEP 1: MESIN -->
+        <div class="step-box">
+            <span class="step-title">Langkah 1: Nyalakan Mesin</span>
+            <div class="btn-row">
+                <button class="btn-machine" onclick="startServer()">1. Start Server 🟢</button>
+                <button class="btn-machine btn-tunnel" onclick="startTunnel()">2. Start Tunnel 🌐</button>
+            </div>
+            <p style="font-size: 0.8em; margin: 0;">*Akan membuka jendela terminal baru.</p>
         </div>
 
-        <button onclick="updateSystem()" id="btnAction">UPDATE & DEPLOY 🚀</button>
-        <div id="statusMsg" class="status"></div>
+        <!-- STEP 2: UPDATE -->
+        <div class="step-box">
+            <span class="step-title">Langkah 2: Update URL Serveo</span>
+            <div class="input-group">
+                <input type="text" id="serveoUrl" placeholder="Paste URL disini (https://...serveo.net/api)" value="">
+            </div>
+
+            <button onclick="updateSystem()" id="btnAction" class="btn-action">UPDATE & DEPLOY 🚀</button>
+            <div id="statusMsg" class="status"></div>
+        </div>
     </div>
 
     <script>
+        // Start Server
+        function startServer() {
+            fetch('/start-server', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => alert(data.message))
+                .catch(err => alert("Gagal menyalakan server"));
+        }
+
+        // Start Tunnel
+        function startTunnel() {
+            fetch('/start-tunnel', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => alert(data.message))
+                .catch(err => alert("Gagal menyalakan tunnel"));
+        }
+
+        // Update System
         async function updateSystem() {
             const urlInput = document.getElementById('serveoUrl').value;
             const btn = document.getElementById('btnAction');
             const msg = document.getElementById('statusMsg');
+
+            if (!urlInput.trim()) {
+                msg.innerText = "⚠️ Masukkan URL dulu!";
+                return;
+            }
 
             if (!urlInput.startsWith('http')) {
                 msg.innerText = "❌ URL tidak valid! Harus dimulai dengan http:// atau https://";
                 return;
             }
 
-            // Pastikan URL diakhiri dengan /api jika user lupa
-            let finalUrl = urlInput;
+            // Fix URL format automatically
+            let finalUrl = urlInput.trim();
             if (!finalUrl.endsWith('/api')) {
-                // Hapus trailing slash jika ada
                 if (finalUrl.endsWith('/')) finalUrl = finalUrl.slice(0, -1);
-                // Tambah /api
                 finalUrl += '/api';
             }
 
@@ -140,11 +231,12 @@
                 });
 
                 const data = await res.json();
-                
+
                 if (data.success) {
                     msg.className = "status success";
-                    msg.innerText = "✅ SUKSES! Tunggu 2 menit untuk Netlify refresh.";
+                    msg.innerText = "✅ SUKSES! Tunggu 2 menit admin.";
                     btn.innerText = "SELESAI ✅";
+                    setTimeout(() => { btn.disabled = false; btn.innerText = "UPDATE & DEPLOY 🚀"; }, 3000);
                 } else {
                     msg.innerText = "⚠️ GAGAL: " + data.message;
                     btn.disabled = false;
@@ -153,7 +245,7 @@
 
             } catch (err) {
                 console.error(err);
-                msg.innerText = "❌ GAGAL MENGHUBUNGI ADMIN TOOL";
+                msg.innerText = "❌ GAGAL KONEKSI KE ADMIN TOOL";
                 btn.disabled = false;
                 btn.innerText = "COBA LAGI";
             }
@@ -161,4 +253,5 @@
     </script>
 
 </body>
+
 </html>
