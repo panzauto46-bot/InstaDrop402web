@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = 3402;
+const PORT = process.env.PORT || 3402;
 
 // Stacks Testnet API (FREE - no API key needed)
 const STACKS_API = 'https://api.testnet.hiro.so';

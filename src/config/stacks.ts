@@ -14,7 +14,9 @@ export const APP_CONFIG = {
 };
 
 // API base URL
-export const API_BASE = '/api';
+// In development: '/api' (proxied by Vite to localhost:3402)
+// In production: set VITE_API_URL to your Render backend URL
+export const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 // 1 STX = 1,000,000 microSTX
 export const STX_DECIMALS = 1_000_000;
@@ -61,10 +63,10 @@ export async function verifyTransaction(txId: string): Promise<{
     const res = await fetch(`${STACKS_API_BASE}/extended/v1/tx/${txId}`);
     if (!res.ok) return { valid: false, status: 'not_found' };
     const tx = await res.json();
-    
+
     const isSTXTransfer = tx.tx_type === 'token_transfer';
     const txStatus = tx.tx_status; // 'success', 'pending', 'abort_by_response', etc.
-    
+
     return {
       valid: isSTXTransfer && (txStatus === 'success' || txStatus === 'pending'),
       status: txStatus,
