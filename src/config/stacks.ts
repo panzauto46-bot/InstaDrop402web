@@ -15,7 +15,7 @@ export const APP_CONFIG = {
 
 // API base URL
 // Use Serveo URL directly for hackathon demo stability
-export const API_BASE = 'https://e6c67c3b4882cc18-103-178-194-178.serveousercontent.com/api';
+export const API_BASE = 'https://6f8c7fbd4a132a80-103-178-194-178.serveousercontent.com/api';
 
 // 1 STX = 1,000,000 microSTX
 export const STX_DECIMALS = 1_000_000;
