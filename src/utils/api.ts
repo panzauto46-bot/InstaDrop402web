@@ -35,9 +35,17 @@ export class PaymentRequiredError extends Error {
   }
 }
 
+// Helper for headers
+const getHeaders = () => {
+  return {
+    'Bypass-Tunnel-Reminder': 'true',
+    'ngrok-skip-browser-warning': 'true',
+  };
+};
+
 // Fetch all drops from server
 export async function fetchAllDrops(): Promise<DropData[]> {
-  const res = await fetch(`${API_BASE}/files`);
+  const res = await fetch(`${API_BASE}/files`, { headers: getHeaders() });
   if (!res.ok) throw new Error('Failed to fetch drops');
   const json = await res.json();
   return json.data || [];
@@ -45,7 +53,7 @@ export async function fetchAllDrops(): Promise<DropData[]> {
 
 // Fetch single drop by ID
 export async function fetchDrop(id: string): Promise<DropData | null> {
-  const res = await fetch(`${API_BASE}/files/${id}`);
+  const res = await fetch(`${API_BASE}/files/${id}`, { headers: getHeaders() });
   if (!res.ok) return null;
   const json = await res.json();
   return json.data || null;
@@ -53,7 +61,7 @@ export async function fetchDrop(id: string): Promise<DropData | null> {
 
 // Fetch drops by seller wallet
 export async function fetchSellerDrops(wallet: string): Promise<DropData[]> {
-  const res = await fetch(`${API_BASE}/files/seller/${wallet}`);
+  const res = await fetch(`${API_BASE}/files/seller/${wallet}`, { headers: getHeaders() });
   if (!res.ok) throw new Error('Failed to fetch seller drops');
   const json = await res.json();
   return json.data || [];
@@ -65,7 +73,7 @@ export async function fetchStats(): Promise<{
   totalDownloads: number;
   totalSellers: number;
 }> {
-  const res = await fetch(`${API_BASE}/stats`);
+  const res = await fetch(`${API_BASE}/stats`, { headers: getHeaders() });
   if (!res.ok) throw new Error('Failed to fetch stats');
   const json = await res.json();
   return json.data;
@@ -90,9 +98,13 @@ export async function uploadFile(params: {
   formData.append('description', params.description || '');
   formData.append('category', params.category || '');
 
+  // Note: specific headers for bypass, but let browser handle Content-Type for FormData
   const res = await fetch(`${API_BASE}/upload`, {
     method: 'POST',
     body: formData,
+    headers: {
+      'Bypass-Tunnel-Reminder': 'true',
+    },
   });
 
   if (!res.ok) {
@@ -110,7 +122,7 @@ export async function downloadFile(id: string, txId?: string): Promise<Response>
     ? `${API_BASE}/download/${id}?txId=${encodeURIComponent(txId)}`
     : `${API_BASE}/download/${id}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: getHeaders() });
 
   if (res.status === 402) {
     const data = await res.json();
