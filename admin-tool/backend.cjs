@@ -24,11 +24,12 @@ app.post('/start-server', (req, res) => {
     });
 });
 
-// Endpoint: Nyalakan Tunnel
+// Endpoint: Nyalakan Tunnel (AUTO RECONNECT)
 app.post('/start-tunnel', (req, res) => {
-    exec('start cmd /k "ssh -R 80:localhost:3402 serveo.net"', { cwd: path.join(__dirname, '..') }, (err) => {
+    // Launch the batch file that contains the loop
+    exec('start cmd /k "start-tunnel-loop.bat"', { cwd: path.join(__dirname, '..') }, (err) => {
         if (err) return res.json({ success: false, message: 'Gagal membuka terminal tunnel.' });
-        res.json({ success: true, message: 'Terminal Tunnel dibuka! Copy URL yang muncul.' });
+        res.json({ success: true, message: 'Tunnel (AUTO-RECONNECT) dimulai! 🛡️' });
     });
 });
 
