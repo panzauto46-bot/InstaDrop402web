@@ -317,7 +317,8 @@ const DIST_DIR = join(__dirname, '..', 'dist');
 if (existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR));
   // SPA catch-all: any non-API route serves index.html
-  app.get('*', (_req, res) => {
+  // Express 5 requires named parameter instead of '*'
+  app.get('{*path}', (_req, res) => {
     res.sendFile(join(DIST_DIR, 'index.html'));
   });
   console.log('[Server] Serving frontend from dist/');
