@@ -309,6 +309,20 @@ app.get('/api/stats', (_req, res) => {
   });
 });
 
+// ==========================================
+// SERVE FRONTEND (Production only)
+// In production, serve the built frontend from dist/
+// ==========================================
+const DIST_DIR = join(__dirname, '..', 'dist');
+if (existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR));
+  // SPA catch-all: any non-API route serves index.html
+  app.get('*', (_req, res) => {
+    res.sendFile(join(DIST_DIR, 'index.html'));
+  });
+  console.log('[Server] Serving frontend from dist/');
+}
+
 // Start server
 app.listen(PORT, () => {
   console.log(`\n  ⚡ InstaDrop 402 API Server`);
@@ -320,3 +334,4 @@ app.listen(PORT, () => {
   console.log(`  Max size:   ${MAX_FILE_SIZE / 1024 / 1024}MB`);
   console.log(`  Status:     ✅ Running\n`);
 });
+
