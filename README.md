@@ -8,7 +8,13 @@
 
 ## 🎯 What is InstaDrop 402?
 
-InstaDrop 402 is a decentralized digital file marketplace that implements the **HTTP 402 (Payment Required)** protocol using **Stacks (STX)** cryptocurrency. Sellers can upload any digital file, set a price, and share a unique link. Buyers pay directly from their wallet and receive the file instantly.
+InstaDrop 402 is a decentralized digital file marketplace that implements the **HTTP 402 (Payment Required)** protocol using **Stacks (STX)** cryptocurrency. 
+
+**Unique Hybrid Architecture:** 
+To maximize security and control during the Hackathon, we utilize a **Hybrid Deployment Strategy**:
+- **Frontend:** Hosted globally on **Netlify** for lightning-fast access.
+- **Backend:** Hosted on a secure **Local Server** (Laptop/PC) via encrypted **Serveo Tunneling**.
+- **Control:** Managed via a custom-built **Admin Generator** tool.
 
 ### Key Features
 
@@ -19,9 +25,8 @@ InstaDrop 402 is a decentralized digital file marketplace that implements the **
 | 💰 **STX Payments** | Pay with Stacks cryptocurrency via Leather or Xverse wallet |
 | 🛡️ **Blockchain Verified** | Every transaction verified against the Stacks blockchain |
 | 📁 **Any File Type** | PDF, ZIP, images, audio, video, code, design files, and more |
-| 🎁 **Free Drops** | Option to share files for free |
-| 📊 **Seller Dashboard** | Track uploads, downloads, and earnings |
-| 🔍 **Marketplace** | Browse, search, and filter available drops |
+| 🚀 **Hybrid Deployment** | Frontend on Cloud (Netlify), Backend on Secure Local Node |
+| 🛠️ **Admin Generator** | Custom DevOps tool to manage the hybrid infrastructure |
 
 ---
 
@@ -34,147 +39,59 @@ InstaDrop 402 is a decentralized digital file marketplace that implements the **
 | **Blockchain** | Stacks (STX) — Testnet |
 | **Wallet** | @stacks/connect (Leather & Xverse) |
 | **Backend** | Express.js + Node.js |
-| **Storage** | Local file system + JSON database |
-| **Protocol** | HTTP 402 Payment Required |
+| **Tunneling** | Serveo.net (SSH Packet Forwarding) |
+| **DevOps** | Custom Admin Generator (Node.js Script) |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run (Hackathon Demo)
 
-### Prerequisites
+Since this project uses a Hybrid Architecture, follow these steps to start the **Backend Node**:
 
-- Node.js 18+
-- npm
-- Stacks wallet ([Leather](https://leather.io) or [Xverse](https://www.xverse.app/))
+### 1. Prerequisites
+- Node.js 18+ installed
+- Windows OS (for Admin Generator)
+- Internet Connection
 
-### Installation
+### 2. Start the Engine
+1. Clone the repo.
+2. Double-click **`start-admin.bat`**.
+3. The **Admin Generator Panel** will open in your browser.
+4. Click **"1. Start Server"** (Starts the API).
+5. Click **"2. Start Tunnel"** (Starts the Secure Tunnel).
+6. Copy the Tunnel URL and click **"Update & Deploy"** in the panel.
 
-```bash
-# Clone the repo
-git clone https://github.com/panzauto46-bot/InstaDrop402web.git
-cd InstaDrop402web
-
-# Install dependencies
-npm install
-
-# Copy environment variables
-cp .env.example .env
-
-# Start the API server (Terminal 1)
-npm run server
-
-# Start the frontend dev server (Terminal 2)
-npm run dev
-```
-
-Open **http://localhost:5173** in your browser.
+### 3. Access the App
+Go to the live frontend URL:
+👉 **[https://instadrop402.netlify.app](https://instadrop402.netlify.app)**
 
 ---
 
 ## 📖 How It Works
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  SELLER FLOW                         │
-│                                                     │
-│  1. Connect Wallet  →  2. Upload File  →  3. Set   │
-│     (Leather/Xverse)    (Drag & Drop)     Price    │
-│                                            (STX)   │
-│                    4. Share Link  →  Done! 🎉       │
-└─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│                  BUYER FLOW                          │
-│                                                     │
-│  1. Open Link  →  2. See File Details  →  3. Pay   │
-│                                            (STX)   │
-│                                                     │
-│  4. TX Verified on Blockchain  →  5. Auto Download  │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
+│  USER (Browser)      │      │  NETLIFY (Frontend)  │      │  LOCAL BACKEND       │
+│                      │      │                      │      │  (Your Laptop)       │
+│  1. Opens App    ───────►   │  2. Serves UI        │      │                      │
+│                      │      │                      │      │                      │
+│  3. Requests File ───────►  │  4. Proxy Request ───────►  │  5. Check Payment    │
+│                      │      │                      │      │     (db.json)        │
+│  6. Download File ◄───────  │  ◄────── Stream File ◄──────│                      │
+└──────────────────────┘      └──────────────────────┘      └──────────────────────┘
 ```
 
-### The x402 Protocol
-
-When a buyer requests a paid file download:
-
-1. Server responds with **HTTP 402 Payment Required**
-2. Response includes price, currency (STX), and seller wallet
-3. Buyer approves STX transfer via wallet
-4. Transaction ID sent back to server
-5. Server **verifies transaction on Stacks blockchain** (via Hiro API)
-6. If valid → file is streamed to buyer
-7. If invalid → **403 Forbidden** (download blocked)
-
----
-
-## 🔒 Security
-
-- **Real blockchain verification** — Every payment verified against Stacks Testnet API
-- **No direct file access** — Files served only through the authenticated API endpoint
-- **File type validation** — Whitelisted extensions only
-- **File size limits** — Maximum 500MB per upload
-- **Wallet-based identity** — No passwords, no accounts to hack
-
----
-
-## 📁 Project Structure
-
-```
-InstaDrop402web/
-├── src/
-│   ├── App.tsx              # Main app + routing
-│   ├── main.tsx             # React entry point
-│   ├── store.ts             # Types & utilities
-│   ├── index.css            # Tailwind + custom animations
-│   ├── components/
-│   │   ├── Navbar.tsx       # Navigation + wallet status
-│   │   ├── DropZone.tsx     # File upload drag & drop
-│   │   ├── PriceConfigurator.tsx  # Price settings
-│   │   └── Toast.tsx        # Notification system
-│   ├── pages/
-│   │   ├── HomePage.tsx     # Landing page
-│   │   ├── ExplorePage.tsx  # Marketplace browse
-│   │   ├── DashboardPage.tsx # Seller dashboard
-│   │   └── DropPage.tsx     # File detail + payment
-│   ├── config/
-│   │   └── stacks.ts        # Blockchain config + API
-│   ├── hooks/
-│   │   └── useWallet.ts     # Wallet connection hook
-│   └── utils/
-│       ├── api.ts           # API client
-│       └── cn.ts            # Class name utility
-├── server/
-│   └── index.js             # Express API + x402 logic
-├── data/
-│   └── db.json              # JSON database
-└── public/
-    └── uploads/             # Uploaded files storage
-```
-
----
-
-## 🌐 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/files` | List all drops |
-| `GET` | `/api/files/:id` | Get single drop |
-| `GET` | `/api/files/seller/:wallet` | Get drops by seller |
-| `POST` | `/api/upload` | Upload new file |
-| `GET` | `/api/download/:id` | Download file (x402 guard) |
-| `GET` | `/api/stats` | Platform statistics |
+### The x402 Protocol Flow
+1. **Upload:** Seller uploads file → Stored in Local Secure Node → Metadata on Chain/DB.
+2. **Pay:** Buyer pays STX → Transaction ID generated.
+3. **Verify:** Backend verifies TX on Stacks Blockchain.
+4. **Unlock:** If valid, file streams through the secure tunnel to the buyer.
 
 ---
 
 ## 🛠️ Built For
 
 **Stacks Hackathon 2026** — Demonstrating the HTTP 402 Payment Required protocol as a real-world use case for micropayments on the Stacks blockchain.
-
----
-
-## 📄 License
-
-This project is private and proprietary.
 
 ---
 
