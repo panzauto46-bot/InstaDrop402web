@@ -1,0 +1,39 @@
+# ========================
+# InstaDrop 402 - .gitignore
+# ========================
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment Variables (RAHASIA - JANGAN PERNAH UPLOAD)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build Output
+dist/
+build/
+out/
+.next/
+
+# System Files
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========================
+# SENGAJA TIDAK DI-IGNORE (untuk demo hackathon):
+# - data/db.json          → data produk dummy untuk juri
+# - public/uploads/       → file contoh untuk demo
+# ========================
