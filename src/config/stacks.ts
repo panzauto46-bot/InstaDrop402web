@@ -14,9 +14,8 @@ export const APP_CONFIG = {
 };
 
 // API base URL
-// In development: '/api' (proxied by Vite to localhost:3402)
-// In production: set VITE_API_URL to your Render backend URL
-export const API_BASE = import.meta.env.VITE_API_URL || '/api';
+// Use Serveo URL directly for hackathon demo stability
+export const API_BASE = 'https://e6c67c3b4882cc18-103-178-194-178.serveousercontent.com/api';
 
 // 1 STX = 1,000,000 microSTX
 export const STX_DECIMALS = 1_000_000;
