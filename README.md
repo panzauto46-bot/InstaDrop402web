@@ -12,7 +12,7 @@ InstaDrop 402 is a decentralized digital file marketplace that implements the **
 
 **Unique Hybrid Architecture:** 
 To maximize security and control during the Hackathon, we utilize a **Hybrid Deployment Strategy**:
-- **Frontend:** Hosted globally on **Netlify** for lightning-fast access.
+- **Frontend:** Hosted globally on **Vercel** for lightning-fast access.
 - **Backend:** Hosted on a secure **Local Server** (Laptop/PC) via encrypted **Serveo Tunneling**.
 - **Control:** Managed via a custom-built **Admin Generator** tool.
 
@@ -25,7 +25,7 @@ To maximize security and control during the Hackathon, we utilize a **Hybrid Dep
 | 💰 **STX Payments** | Pay with Stacks cryptocurrency via Leather or Xverse wallet |
 | 🛡️ **Blockchain Verified** | Every transaction verified against the Stacks blockchain |
 | 📁 **Any File Type** | PDF, ZIP, images, audio, video, code, design files, and more |
-| 🚀 **Hybrid Deployment** | Frontend on Cloud (Netlify), Backend on Secure Local Node |
+| 🚀 **Hybrid Deployment** | Frontend on Cloud (Vercel), Backend on Secure Local Node |
 | 🛠️ **Admin Generator** | Custom DevOps tool to manage the hybrid infrastructure |
 
 ---
@@ -63,7 +63,7 @@ Since this project uses a Hybrid Architecture, follow these steps to start the *
 
 ### 3. Access the App
 Go to the live frontend URL:
-👉 **[https://instadrop402.netlify.app](https://instadrop402.netlify.app)**
+👉 **[https://instadrop402.vercel.app/](https://instadrop402.vercel.app/)**
 
 ---
 
@@ -71,7 +71,7 @@ Go to the live frontend URL:
 
 ```
 ┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
-│  USER (Browser)      │      │  NETLIFY (Frontend)  │      │  LOCAL BACKEND       │
+│  USER (Browser)      │      │  VERCEL (Frontend)   │      │  LOCAL BACKEND       │
 │                      │      │                      │      │  (Your Laptop)       │
 │  1. Opens App    ───────►   │  2. Serves UI        │      │                      │
 │                      │      │                      │      │                      │
