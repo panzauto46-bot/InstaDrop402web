@@ -103,5 +103,20 @@
     "category": "",
     "downloads": 1,
     "timestamp": "2026-02-11T06:05:17.703Z"
+  },
+  {
+    "id": "yrbt9is477",
+    "title": "download.jpg",
+    "price": 0,
+    "isFree": true,
+    "sellerWallet": "bc1q5q42sq3dgxy6z6m7n40h2kdhjvqmlv29446w4t",
+    "filename": "1770793586741-download.jpg",
+    "originalName": "download.jpg",
+    "size": 2570,
+    "mimetype": "image/jpeg",
+    "description": "",
+    "category": "",
+    "downloads": 1,
+    "timestamp": "2026-02-11T07:06:26.755Z"
   }
 ]
